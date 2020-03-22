@@ -1,13 +1,4 @@
-<!-- <ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
-    </ion-buttons>
-    <ion-title>home</ion-title>
-  </ion-toolbar>
-</ion-header> -->
-
-<ion-content>
+<ion-content class="ion-padding-horizontal">
 
   <h3>Sistema de pedidos</h3>
   <img src="assets/icon/favicon.png" alt="logo" />
@@ -21,7 +12,7 @@
       <ion-label position="stacked">Senha</ion-label>
       <ion-input type="password"></ion-input>
     </ion-item>
-    <ion-button expand="full">Entrar</ion-button>
+    <ion-button expand="full" (click)="login()">Entrar</ion-button>
   </form>
   <ion-button expand="full" fill="outline">Registrar</ion-button>
 

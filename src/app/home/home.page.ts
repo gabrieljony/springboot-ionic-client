@@ -13,4 +13,8 @@ export class HomePage implements OnInit {
   ngOnInit() {
   }
 
+  login() {
+    this.navCtrl.navigateRoot('/categorias');
+  }
+
 }
