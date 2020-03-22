@@ -8,6 +8,12 @@
 </ion-header>
 
 <ion-content class="ion-padding-horizontal">
-  <p>Página de categorias</p>
-
+  <ion-list>
+    <ion-item button *ngFor="let item of items">
+      <ion-thumbnail slot="start">
+        <img src="{{bucketUrl}}/cat{{item.id}}.jpg">
+      </ion-thumbnail>
+      <ion-label>{{ item.nome }}</ion-label>
+    </ion-item>
+  </ion-list>
 </ion-content>
