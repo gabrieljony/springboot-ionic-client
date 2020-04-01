@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController, MenuController } from '@ionic/angular';
+import { CredenciaisDTO } from 'src/models/credenciais.dto';
 
 @Component({
   selector: 'app-home',
@@ -7,6 +8,11 @@ import { NavController, MenuController } from '@ionic/angular';
   styleUrls: ['./home.page.scss'],
 })
 export class HomePage implements OnInit {
+
+  creds: CredenciaisDTO = {
+    email: "",
+    senha: ""
+  };
 
   constructor(public navCtrl: NavController
     , public menu: MenuController) { }
@@ -23,6 +29,7 @@ export class HomePage implements OnInit {
   }
 
   login() {
+    console.log(this.creds)
     this.navCtrl.navigateRoot('/categorias');
   }
 
