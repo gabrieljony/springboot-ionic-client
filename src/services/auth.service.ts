@@ -25,6 +25,15 @@ export class AuthService {
     })
   }
 
+  refreshToken(){
+    return this.http.post(`${environment.API_CONFIG}/auth/refresh_token`, 
+    {},
+    {
+      observe: 'response',
+      responseType: 'text'
+    })
+  }
+
   successFullLogin(authorizationValue: string){
     let token = authorizationValue.substring(7);
     let user: LocalUser = {

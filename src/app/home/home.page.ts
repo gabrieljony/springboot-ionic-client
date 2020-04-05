@@ -23,13 +23,26 @@ export class HomePage implements OnInit {
   ngOnInit() {
   }
 
-  ionViewDidEnter() {
+  //lifecycle ionic v5
+
+  //Disparado quando o componente que está sendo roteado está prestes a animar.
+  ionViewWillEnter() {
     this.menu.enable(false);
   }
 
-  ionViewWillLeave() {
+  //Disparado quando o componente que está sendo roteado foi animado.
+  ionViewDidLeave() {
     this.menu.enable(true);
   }
+
+  //Disparado quando o componente para o qual o roteamento está animado.
+  ionViewDidEnter() {
+    this.auth.refreshToken()
+      .subscribe(response => {
+        this.auth.successFullLogin(response.headers.get('Authorization'));
+        this.navCtrl.navigateRoot('/categorias');
+      }, error => {})
+  }	
 
   login() {
     this.auth.authenticate(this.creds)
