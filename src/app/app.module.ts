@@ -11,6 +11,7 @@ import { AppRoutingModule } from './app-routing.module';
 
 import { HttpClientModule } from '@angular/common/http';
 import { CategoriaService } from 'src/services/domain/categoria.service';
+import { AuthInterceptorProvider } from 'src/interceptors/auth-interceptor';
 import { ErrorInterceptProvider } from 'src/interceptors/error-interceptor';
 import { AuthService } from 'src/services/auth.service';
 import { StorageService } from 'src/services/storage.service';
@@ -30,6 +31,7 @@ import { ClienteService } from 'src/services/domain/cliente.service';
     SplashScreen,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     CategoriaService,
+    AuthInterceptorProvider,
     ErrorInterceptProvider,
     AuthService,
     StorageService,
