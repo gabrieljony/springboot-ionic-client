@@ -26,7 +26,7 @@ export class SignupPage implements OnInit {
     this.formGroup = formBuilder.group({
       nome: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(120)]],
       email: ['', [Validators.required, Validators.email]],
-      tipo: ['', [Validators.required]],
+      tipo: ['1', [Validators.required]],
       cpfOuCnpj: ['', [Validators.required, Validators.minLength(11), Validators.maxLength(14)]],
       senha: ['', [Validators.required]],
       logradouro: ['', [Validators.required]],
@@ -64,7 +64,7 @@ export class SignupPage implements OnInit {
   }
 
   signupUser() {
-    console.log("ok");
+    console.log(this.formGroup);
   }
 
   updateCidade() {
