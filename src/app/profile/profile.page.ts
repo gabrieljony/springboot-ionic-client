@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { NavController } from '@ionic/angular';
+
 import { StorageService } from 'src/services/storage.service';
 import { ClienteDTO } from 'src/models/cliente.dto';
 import { ClienteService } from 'src/services/domain/cliente.service';
@@ -15,7 +17,8 @@ export class ProfilePage implements OnInit {
   private readonly bucketAmazonS3 = environment.bucketAmazonS3;
 
   constructor(public storage: StorageService,
-    public clienteService: ClienteService) { }
+    public clienteService: ClienteService,
+    public navCtrl: NavController) { }
 
   ngOnInit() {
     let localUser = this.storage.getLocalUser();
@@ -27,8 +30,12 @@ export class ProfilePage implements OnInit {
           console.log(this.cliente)
         },
           error => {
-
+            if(error.status == 403){
+              this.navCtrl.navigateRoot('/');
+            }
           })
+    } else {
+      this.navCtrl.navigateRoot('/');
     }
   }
 
