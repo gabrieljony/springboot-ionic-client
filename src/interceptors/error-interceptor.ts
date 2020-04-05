@@ -11,6 +11,7 @@ import {
 import { Observable, throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
 import { StorageService } from 'src/services/storage.service';
+import { FieldMessage } from 'src/models/fieldmessage';
 
 @Injectable()
 export class ErrorIntercept implements HttpInterceptor {
@@ -51,6 +52,10 @@ export class ErrorIntercept implements HttpInterceptor {
               this.handle403();
               break;
 
+            case 422:
+              this.handle422(errorObj);
+              break;
+
             default:
               console.log(error)
               this.handleDefaultError(error);
@@ -80,6 +85,30 @@ export class ErrorIntercept implements HttpInterceptor {
     });
 
     await alert.present();
+  }
+
+  async handle422(errorObj) {
+    const alert = await this.alertController.create({
+      header: 'Erro de validação!',
+      subHeader: '',
+      message: this.listErrors(errorObj.errors),
+      backdropDismiss: false,
+      buttons: [
+        {
+          text: 'OK'
+        }
+      ]
+    });
+
+    await alert.present();
+  }
+
+  private listErrors(messages: FieldMessage[]): string{
+    let s: string = '';
+    for(var i=0; i<messages.length; i++){
+      s = s + messages[i].fieldName + ' ' + messages[i].message
+    }
+    return s;
   }
 
   async handleDefaultError(errorObj) {

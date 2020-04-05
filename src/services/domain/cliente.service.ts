@@ -29,5 +29,17 @@ export class ClienteService {
     return this.http.get(url, { responseType: 'blob' });
   }
 
+  insert(obj: ClienteDTO){
+    return this.http.post(
+      `${this.API}/clientes`, 
+      obj, 
+      {
+        observe: 'response', 
+        responseType: 'text'
+      }
+      );
+
+  }
+
 
 }

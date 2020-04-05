@@ -1,10 +1,11 @@
-import { MenuController } from '@ionic/angular';
+import { MenuController, AlertController, NavController } from '@ionic/angular';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validator, Validators } from '@angular/forms';
 import { CidadeService } from 'src/services/domain/cidade.service';
 import { EstadoService } from 'src/services/domain/estado.service';
 import { CidadeDTO } from 'src/models/cidade.dto';
 import { EstadoDTO } from 'src/models/estado.dto';
+import { ClienteService } from 'src/services/domain/cliente.service';
 
 @Component({
   selector: 'app-signup',
@@ -20,7 +21,10 @@ export class SignupPage implements OnInit {
   constructor(public menu: MenuController,
     public formBuilder: FormBuilder,
     public cidadeService: CidadeService,
-    public estadoService: EstadoService
+    public estadoService: EstadoService,
+    public clienteService: ClienteService,
+    public alertController: AlertController,
+    public navCtrl: NavController
   ) {
 
     this.formGroup = formBuilder.group({
@@ -63,10 +67,6 @@ export class SignupPage implements OnInit {
     this.menu.enable(false);
   }
 
-  signupUser() {
-    console.log(this.formGroup);
-  }
-
   updateCidade() {
     let estado_id = this.formGroup.value.estadoId;
     this.cidadeService.findAll(estado_id)
@@ -74,6 +74,31 @@ export class SignupPage implements OnInit {
         this.cidades = response;
         this.formGroup.controls.cidadeId.setValue(null);
       }, error => { });
+  }
+
+  signupUser() {
+    this.clienteService.insert(this.formGroup.value)
+      .subscribe(response => {
+        this.showInsertOk();
+      }, error => {})
+  }
+
+  async showInsertOk(){
+    const alert = await this.alertController.create({
+      header: 'Sucesso!',
+      message: 'Cadastro efetuado com sucesso.',
+      backdropDismiss: false,
+      buttons: [
+        {
+          text: 'OK',
+          handler: () => {
+            this.navCtrl.pop();
+          }
+        }
+      ]
+    });
+
+    await alert.present();
   }
 
 }
