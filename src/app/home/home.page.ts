@@ -18,7 +18,7 @@ export class HomePage implements OnInit {
   constructor(public navCtrl: NavController
     , public menu: MenuController
     , public auth: AuthService
-    ) { }
+  ) { }
 
   ngOnInit() {
   }
@@ -41,15 +41,19 @@ export class HomePage implements OnInit {
       .subscribe(response => {
         this.auth.successFullLogin(response.headers.get('Authorization'));
         this.navCtrl.navigateRoot('/categorias');
-      }, error => {})
-  }	
+      }, error => { })
+  }
 
   login() {
     this.auth.authenticate(this.creds)
       .subscribe(response => {
         this.auth.successFullLogin(response.headers.get('Authorization'));
         this.navCtrl.navigateRoot('/categorias');
-      }, error => {})
+      }, error => { })
+  }
+
+  signup() {
+    this.navCtrl.navigateForward('/signup');
   }
 
 }
