@@ -17,16 +17,17 @@ export class AuthInterceptor implements HttpInterceptor {
     
   }
 
-  intercept(
-    request: HttpRequest<any>,
-    next: HttpHandler
-  ): Observable<HttpEvent<any>> {
+  intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     // console.log("Passou no interceptor")
+
+    // pegar o token que esta no LocalUser
     let localUser = this.storage.getLocalUser();
 
+    //Comapara a requisição da API
     let N = environment.API_CONFIG.length;
     let requestToAPI = request.url.substring(0, N) == environment.API_CONFIG;
-    //verifica se existe o token na requisição e se for uma requisição para a API
+    
+    //verifica se existe o token no LocalStorage na requisição e se for uma requisição para a API
     if(localUser && requestToAPI){
       const authReq = request.clone({headers: request.headers.set('Authorization', 'Bearer ' + localUser.token)})
       return next.handle(authReq)
