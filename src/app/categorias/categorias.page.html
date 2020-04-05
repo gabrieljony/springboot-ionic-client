@@ -9,7 +9,7 @@
 
 <ion-content class="ion-padding-horizontal">
   <ion-list>
-    <ion-item button *ngFor="let item of items">
+    <ion-item button *ngFor="let item of items" (click)="showProdutos()">
       <ion-thumbnail slot="start">
         <img src="{{bucketUrl}}/cat{{item.id}}.jpg">
       </ion-thumbnail>

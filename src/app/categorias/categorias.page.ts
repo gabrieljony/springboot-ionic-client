@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CategoriaService } from 'src/services/domain/categoria.service';
 import { CategoriaDTO } from 'src/models/categoria.dto';
 import { environment } from 'src/environments/environment';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-categorias',
@@ -13,7 +14,8 @@ export class CategoriasPage implements OnInit {
   items: CategoriaDTO[]
   bucketUrl: string = environment.bucketAmazonS3
 
-  constructor(public categoriaService: CategoriaService
+  constructor(public categoriaService: CategoriaService,
+    public navCtrl: NavController
   ) { }
 
   ngOnInit() {
@@ -26,6 +28,9 @@ export class CategoriasPage implements OnInit {
       }, error => { })
   }
 
+  showProdutos(){
+    this.navCtrl.navigateForward('/produtos');
+  }
 
 
 }
