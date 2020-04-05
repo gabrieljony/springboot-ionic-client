@@ -87,17 +87,15 @@
 
     <ion-item>
       <ion-label>Estado *</ion-label>
-      <ion-select formControlName="estadoId" (ionChange)="updateCidade()">
-        <ion-select-option value="1">Minas Gerais</ion-select-option>
-        <ion-select-option value="2">São Paulo</ion-select-option>
+      <ion-select formControlName="estadoId" (ionChange)="updateCidade()" interface="popover">
+        <ion-select-option *ngFor="let estado of estados" [value]="estado.id">{{estado.nome}}</ion-select-option>
       </ion-select>
     </ion-item>
 
     <ion-item>
       <ion-label>Cidade *</ion-label>
-      <ion-select formControlName="cidadeId">
-        <ion-select-option value="1">Uberlândia</ion-select-option>
-        <ion-select-option value="2">Campinas</ion-select-option>
+      <ion-select formControlName="cidadeId" interface="popover">
+        <ion-select-option *ngFor="let cidade of cidades" [value]="cidade.id">{{cidade.nome}}</ion-select-option>
       </ion-select>
     </ion-item>
 
