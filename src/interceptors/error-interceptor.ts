@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { AlertController } from '@ionic/angular';
 import {
   HttpEvent,
   HttpHandler,
@@ -14,7 +15,9 @@ import { StorageService } from 'src/services/storage.service';
 @Injectable()
 export class ErrorIntercept implements HttpInterceptor {
 
-  constructor(public storage: StorageService){}
+  constructor(public storage: StorageService,
+    public alertController: AlertController
+  ) { }
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     // console.log("Passou no interceptor")
@@ -33,15 +36,24 @@ export class ErrorIntercept implements HttpInterceptor {
           if (error.error) {
             error = error.error
           }
-
-          console.log(errorMessage);
-          console.log(`Erro detectado pelo interceptor: `);
           console.log(error)
+          console.log(errorMessage);
+          // console.log(`Erro detectado pelo interceptor: `);
+          const errorObj = JSON.parse(`${error}`);
+          console.log(errorObj, "error")
 
-          switch(error.status){
+          switch (errorObj.status) {
+            case 401:
+              this.handle401();
+              break;
+
             case 403:
-                this.handle403();
-                break;
+              this.handle403();
+              break;
+
+            default:
+              console.log(error)
+              this.handleDefaultError(error);
 
           }
           return throwError(error);
@@ -52,6 +64,38 @@ export class ErrorIntercept implements HttpInterceptor {
   handle403() {
     //Error 403, que um possivel localUser está inválido, logo será removido esse obj caso exista
     this.storage.setLocalUser(null);
+  }
+
+  async handle401() {
+    const alert = await this.alertController.create({
+      header: 'Atenção!',
+      subHeader: 'Erro 401: falha de autenticação.',
+      message: 'E-mail ou senha incorretos.',
+      backdropDismiss: false,
+      buttons: [
+        {
+          text: 'OK'
+        }
+      ]
+    });
+
+    await alert.present();
+  }
+
+  async handleDefaultError(errorObj) {
+    const alert = await this.alertController.create({
+      header: 'Atenção!',
+      subHeader: 'Erro ' + errorObj.status + ': ' + errorObj.error,
+      message: errorObj.message,
+      backdropDismiss: false,
+      buttons: [
+        {
+          text: 'OK'
+        }
+      ]
+    });
+
+    await alert.present();
   }
 
 }
