@@ -53,6 +53,7 @@ export class HomePage implements OnInit {
   }
 
   signup() {
+    console.log("passou")
     this.navCtrl.navigateForward('/signup');
   }
 
