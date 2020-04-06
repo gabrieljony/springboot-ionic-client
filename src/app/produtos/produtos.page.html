@@ -5,6 +5,11 @@
 </ion-header>
 
 <ion-content class="ion-padding-horizontal">
+  <ion-fab horizontal="end" vertical="top" slot="fixed" edge>
+    <ion-fab-button routerDirection="forward" href="/cart">
+      <ion-icon name="cart-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 
   <ion-list>
     <ion-item *ngFor="let item of items" (click)="showDetail(item.id)">
