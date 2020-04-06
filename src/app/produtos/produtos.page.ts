@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { NavController } from '@ionic/angular';
 
 import { ProdutoDTO } from 'src/models/produto.dto';
 import { ProdutoService } from 'src/services/domain/produto.service';
@@ -16,7 +17,8 @@ export class ProdutosPage implements OnInit {
   categoriaId: string;
 
   constructor(public produtoService: ProdutoService,
-    private route: ActivatedRoute) { }
+    private route: ActivatedRoute,
+    public navCtrl: NavController) { }
 
   ngOnInit() {
     //Pegar o paramentro que passa pela navegação, extraindo parâmetros de url
@@ -37,6 +39,10 @@ export class ProdutosPage implements OnInit {
         item.imageUrl = `${environment.bucketAmazonS3}/prod${item.id}-small.jpg`;
       }, error => { });
     }
+  }
+
+  showDetail() {
+    this.navCtrl.navigateForward('/produto-detail');
   }
 
 }
