@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ProdutoDTO } from 'src/models/produto.dto';
 import { ProdutoService } from 'src/services/domain/produto.service';
 import { environment } from 'src/environments/environment';
+import { CartService } from 'src/services/domain/cart.service';
 
 @Component({
   selector: 'app-produto-detail',
@@ -17,7 +18,8 @@ export class ProdutoDetailPage implements OnInit {
 
   constructor(public produtoService: ProdutoService,
     private route: ActivatedRoute,
-    public router: Router) { }
+    public router: Router,
+    public cartService: CartService) { }
 
   ngOnInit() {
     //Pegar o paramentro que passa pela navegação, extraindo parâmetros de url
@@ -40,6 +42,11 @@ export class ProdutoDetailPage implements OnInit {
         this.item.imageUrl = `${environment.bucketAmazonS3}/prod${this.item.id}.jpg`;
       },
         error => { })
+  }
+
+  addToCart(produto: ProdutoDTO) {
+    this.cartService.addProduto(produto);
+    this.router.navigate(['/cart']);
   }
 
 }
