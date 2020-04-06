@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 
 import { ProdutoDTO } from 'src/models/produto.dto';
 import { ProdutoService } from 'src/services/domain/produto.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-produtos',
@@ -25,7 +26,17 @@ export class ProdutosPage implements OnInit {
     this.produtoService.findByCategoria(this.categoriaId)
       .subscribe(response => {
         this.items = response['content'];
-      }, error => {})
+        this.loadImageurls();
+      }, error => { })
+  }
+
+  loadImageurls() {
+    for (var i = 0; i < this.items.length; i++) {
+      let item = this.items[i];
+      this.produtoService.getSmallImageFromBucket(item.id).subscribe(response => {
+        item.imageUrl = `${environment.bucketAmazonS3}/prod${item.id}-small.jpg`;
+      }, error => { });
+    }
   }
 
 }

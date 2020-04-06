@@ -9,7 +9,7 @@
   <ion-list>
     <ion-item *ngFor="let item of items">
       <ion-thumbnail slot="start">
-        <img [src]="item.imagemUrl || 'assets/prod.jpg'">
+        <img [src]="item.imageUrl || 'assets/prod.jpg'">
       </ion-thumbnail>
       <ion-label>{{item.nome}}</ion-label>
       <ion-label>{{item.preco | currency}}</ion-label>
