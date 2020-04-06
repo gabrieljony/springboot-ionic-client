@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { NavController } from '@ionic/angular';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { ProdutoDTO } from 'src/models/produto.dto';
 import { ProdutoService } from 'src/services/domain/produto.service';
@@ -18,7 +17,7 @@ export class ProdutosPage implements OnInit {
 
   constructor(public produtoService: ProdutoService,
     private route: ActivatedRoute,
-    public navCtrl: NavController) { }
+    public router: Router) { }
 
   ngOnInit() {
     //Pegar o paramentro que passa pela navegação, extraindo parâmetros de url
@@ -41,8 +40,9 @@ export class ProdutosPage implements OnInit {
     }
   }
 
-  showDetail() {
-    this.navCtrl.navigateForward('/produto-detail');
+  showDetail(produto_id: string) {
+    this.router.navigate(['/produto-detail'], { queryParams: {'produto_id': produto_id }});
+  
   }
 
 }

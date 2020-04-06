@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+
 import { ProdutoDTO } from 'src/models/produto.dto';
+import { ProdutoService } from 'src/services/domain/produto.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-produto-detail',
@@ -9,15 +13,33 @@ import { ProdutoDTO } from 'src/models/produto.dto';
 export class ProdutoDetailPage implements OnInit {
 
   item: ProdutoDTO;
+  produtoId: string;
 
-  constructor() { }
+  constructor(public produtoService: ProdutoService,
+    private route: ActivatedRoute,
+    public router: Router) { }
 
   ngOnInit() {
-    this.item = {
-      id: "1",
-      nome: "Mouse",
-      preco: 80.59
-    }
+    //Pegar o paramentro que passa pela navegação, extraindo parâmetros de url
+    this.route.queryParams.subscribe((queryParams: any) => {
+      this.produtoId = queryParams['produto_id'];
+    });
+    this.produtoService.findById(this.produtoId)
+      .subscribe(response => {
+        this.item = response;
+        this.getImageUrlIfExists();
+      }, error => { })
+  }
+
+  /**
+   * Método para testar se a imagem exite
+   */
+  getImageUrlIfExists() {
+    this.produtoService.getImageFromBucket(this.item.id)
+      .subscribe(response => {
+        this.item.imageUrl = `${environment.bucketAmazonS3}/prod${this.item.id}.jpg`;
+      },
+        error => { })
   }
 
 }
