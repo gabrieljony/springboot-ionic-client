@@ -59,4 +59,11 @@ export class CartPage implements OnInit {
     this.router.navigate(['/categorias']);
   }
 
+  /**
+   * Método de Finalizar o pedido
+   */
+  checkout() {
+    this.router.navigate(['/pick-address']);
+  }
+
 }

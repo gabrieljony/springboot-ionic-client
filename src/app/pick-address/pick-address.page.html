@@ -1,0 +1,26 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Escolha o endereço de entregar.</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding-horizontal">
+
+  <ion-list>
+    <ion-list-header>
+      <ion-label>Selecione um Endereço:</ion-label>
+    </ion-list-header>
+    <ion-item button (click)="buttonClick()" *ngFor="let item of items">
+      <ion-label>
+        {{ item.logradouro }}, {{ item.numero }}
+      </ion-label>
+      <ion-label>
+        {{ item.complemento }} {{ item.bairro }} CEP {{ item.cep }}
+      </ion-label>
+      <ion-label>
+        {{ item.cidade.nome }}, {{ item.cidade.estado.nome }}
+      </ion-label>
+    </ion-item>
+  </ion-list>
+
+</ion-content>
