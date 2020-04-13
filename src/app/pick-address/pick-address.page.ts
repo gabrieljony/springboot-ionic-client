@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { EnderecoDTO } from 'src/models/endereco.dto';
+import { StorageService } from 'src/services/storage.service';
+import { ClienteService } from 'src/services/domain/cliente.service';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-pick-address',
@@ -10,27 +13,25 @@ export class PickAddressPage implements OnInit {
 
   items: EnderecoDTO[];
 
-  constructor() { }
+  constructor(public storage: StorageService,
+    public clienteService: ClienteService,
+    public navCtrl: NavController) { }
 
   ngOnInit() {
-    this.items = [
-      {
-        id: "1",
-        logradouro: "Rua da mouraria",
-        numero: "71",
-        bairro: "Nazaré",
-        complemento: "Rua da frente",
-        cep: "40040090",
-        cidade: {
-          id: "1",
-          nome: "Salvador",
-          estado: {
-            id: "1",
-            nome: "Bahia"
-          }
-        }
-      }
-    ]
+    let localUser = this.storage.getLocalUser();
+    if (localUser && localUser.email) {
+      this.clienteService.findByEmailAll(localUser.email)
+        .subscribe(response => {
+          this.items = response['enderecos'];
+        },
+          error => {
+            if(error.status == 403){
+              this.navCtrl.navigateRoot('/');
+            }
+          })
+    } else {
+      this.navCtrl.navigateRoot('/');
+    }
   }
 
 }

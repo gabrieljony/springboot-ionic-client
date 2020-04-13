@@ -42,4 +42,9 @@ export class ClienteService {
   }
 
 
+  findByEmailAll(email: string) {
+    return this.http.get(`${this.API}/clientes/email?value=${email}`);
+  }
+
+
 }
