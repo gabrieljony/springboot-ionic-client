@@ -46,5 +46,9 @@ export class ClienteService {
     return this.http.get(`${this.API}/clientes/email?value=${email}`);
   }
 
+  findById(id: string){
+    return this.http.get(`${this.API}/clientes/${id}`);
+  }
+
 
 }
