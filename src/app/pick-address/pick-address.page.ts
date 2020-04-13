@@ -5,6 +5,7 @@ import { ClienteService } from 'src/services/domain/cliente.service';
 import { NavController } from '@ionic/angular';
 import { PedidoDTO } from 'src/models/pedido.dto';
 import { CartService } from 'src/services/domain/cart.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-pick-address',
@@ -20,7 +21,8 @@ export class PickAddressPage implements OnInit {
   constructor(public storage: StorageService,
     public clienteService: ClienteService,
     public navCtrl: NavController,
-    public cartService: CartService) { }
+    public cartService: CartService,
+    public router: Router) { }
 
   ngOnInit() {
     let localUser = this.storage.getLocalUser();
@@ -37,10 +39,10 @@ export class PickAddressPage implements OnInit {
             },
             enderecoDeEntrega: null,
             pagamento: null,
-            itens: cart.items.map(x => { 
-              return { 
-                quantidade: x.quantidade, 
-                produto: { id: x.produto.id } 
+            itens: cart.items.map(x => {
+              return {
+                quantidade: x.quantidade,
+                produto: { id: x.produto.id }
               }
             })[0]
           }
@@ -57,7 +59,7 @@ export class PickAddressPage implements OnInit {
 
   nextPage(value: EnderecoDTO) {
     this.pedido.enderecoDeEntrega = { id: value.id };
-    console.log(this.pedido)
+    this.router.navigate(['/payment'], {queryParams: { pedido: this.pedido }})
   }
 
 }
