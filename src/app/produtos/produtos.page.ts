@@ -13,8 +13,10 @@ import { LoadingController } from '@ionic/angular';
 })
 export class ProdutosPage implements OnInit {
 
-  items: ProdutoDTO[];
+  items: ProdutoDTO[] = [];
   categoriaId: string;
+  page: number = 0;
+
 
   constructor(public produtoService: ProdutoService,
     private route: ActivatedRoute,
@@ -29,8 +31,8 @@ export class ProdutosPage implements OnInit {
     this.presentLoading()
   }
 
-  loadImageurls() {
-    for (var i = 0; i < this.items.length; i++) {
+  loadImageurls(start: number, end: number) {
+    for (var i = start; i <= end; i++) {
       let item = this.items[i];
       this.produtoService.getSmallImageFromBucket(item.id).subscribe(response => {
         item.imageUrl = `${environment.bucketAmazonS3}/prod${item.id}-small.jpg`;
@@ -51,13 +53,17 @@ export class ProdutosPage implements OnInit {
       loading = await this.loadingController.create({ message: 'Aguarde...' });
       await loading.present();
 
-      this.produtoService.findByCategoria(this.categoriaId)
+      this.produtoService.findByCategoria(this.categoriaId, this.page, 10)
         .subscribe(response => {
-          this.items = response['content'];
+          let start = this.items.length
+          this.items = this.items.concat(response['content'])
+          let end = this.items.length - 1
           if (loading) {
             loading.dismiss();
           }
-          this.loadImageurls();
+          console.log(this.page)
+          console.log(this.items)
+          this.loadImageurls(start, end);
         }, error => {
           if (loading) {
             loading.dismiss();
@@ -73,10 +79,21 @@ export class ProdutosPage implements OnInit {
   }
 
   doRefresh(event) {
+    this.page = 0
+    this.items = []
     this.presentLoading()
     setTimeout(() => {
       event.target.complete();
     }, 1000);
   }
+
+  loadData(event) {
+    this.page++;
+    this.presentLoading()
+    setTimeout(() => {
+      event.target.complete();
+    }, 500);
+  }
+
 
 }
