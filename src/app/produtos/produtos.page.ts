@@ -44,7 +44,7 @@ export class ProdutosPage implements OnInit {
   }
 
 
-// https://ionicframework.com/docs/api/loading
+  // https://ionicframework.com/docs/api/loading
   async presentLoading() {
     let loading: any;
     try {
@@ -70,6 +70,13 @@ export class ProdutosPage implements OnInit {
       }
       console.log('Failed FirebasePage: ' + JSON.stringify(err, ['message', 'arguments', 'type', 'name']));
     }
+  }
+
+  doRefresh(event) {
+    this.presentLoading()
+    setTimeout(() => {
+      event.target.complete();
+    }, 1000);
   }
 
 }
