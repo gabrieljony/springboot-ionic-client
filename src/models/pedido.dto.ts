@@ -6,5 +6,5 @@ export interface PedidoDTO {
   cliente: RefDTO
   enderecoDeEntrega: RefDTO
   pagamento: PagamentoDTO
-  itens: ItemPedidoDTO
+  itens: ItemPedidoDTO[]
 }

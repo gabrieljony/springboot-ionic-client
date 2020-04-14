@@ -29,6 +29,6 @@
     </ion-item>
   </ion-list>
   <ion-button expand="block" (click)="goOn()">Continuar Comprando</ion-button>
-  <ion-button expand="block" (click)="checkout()" color="secondary">Finalizar Pedido</ion-button>
+  <ion-button *ngIf="total() > 0" expand="block" (click)="checkout()" color="secondary">Finalizar Pedido</ion-button>
 
 </ion-content>

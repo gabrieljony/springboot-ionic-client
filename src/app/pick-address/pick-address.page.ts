@@ -44,7 +44,7 @@ export class PickAddressPage implements OnInit {
                 quantidade: x.quantidade,
                 produto: { id: x.produto.id }
               }
-            })[0]
+            })
           }
         },
           error => {
@@ -59,7 +59,7 @@ export class PickAddressPage implements OnInit {
 
   nextPage(value: EnderecoDTO) {
     this.pedido.enderecoDeEntrega = { id: value.id };
-    this.router.navigate(['/payment'], {queryParams: { pedido: this.pedido }})
+    this.router.navigate(['/payment'], { queryParams: { pedido: this.pedido } })
   }
 
 }

@@ -6,6 +6,7 @@ import { ClienteDTO } from 'src/models/cliente.dto';
 import { EnderecoDTO } from 'src/models/endereco.dto';
 import { ClienteService } from 'src/services/domain/cliente.service';
 import { Router } from '@angular/router';
+import { PedidoService } from 'src/services/domain/pedido.service';
 
 @Component({
   selector: 'app-order-confirmation',
@@ -21,7 +22,8 @@ export class OrderConfirmationPage implements OnInit {
 
   constructor(public cartService: CartService,
     public clienteService: ClienteService,
-    private router: Router) {
+    private router: Router,
+    public pedidoService: PedidoService) {
     //Pegar o paramentro que passa pela navegação, extraindo parâmetros de url
     const nav = this.router.getCurrentNavigation();
     this.pedido = nav.extras.queryParams.pedido;
@@ -45,6 +47,21 @@ export class OrderConfirmationPage implements OnInit {
 
   total() {
     return this.cartService.total();
+  }
+
+  checkout() {
+    console.log(this.pedido)
+    this.pedidoService.insert(this.pedido).subscribe(response => {
+      this.cartService.createOrClearCart()
+      console.log(response.headers.get('location'))
+    }, error => {
+      if (error.status == 403)
+        this.router.navigate(['/'])
+    })
+  }
+
+  back() {
+    this.router.navigate(['/cart'])
   }
 
 }

@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { OrderConfirmationPageRoutingModule } from './order-confirmation-routing.module';
 
 import { OrderConfirmationPage } from './order-confirmation.page';
+import { PedidoService } from 'src/services/domain/pedido.service';
 
 @NgModule({
   imports: [
@@ -15,6 +16,9 @@ import { OrderConfirmationPage } from './order-confirmation.page';
     IonicModule,
     OrderConfirmationPageRoutingModule
   ],
-  declarations: [OrderConfirmationPage]
+  declarations: [OrderConfirmationPage],
+  providers: [
+    PedidoService
+  ]
 })
 export class OrderConfirmationPageModule {}
