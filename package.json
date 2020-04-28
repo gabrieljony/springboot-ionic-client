@@ -1,7 +1,7 @@
 {
   "name": "ionicClient",
   "version": "0.0.1",
-  "author": "Ionic Framework",
+  "author": "Gabriel Jony",
   "homepage": "https://ionicframework.com/",
   "scripts": {
     "ng": "ng",
