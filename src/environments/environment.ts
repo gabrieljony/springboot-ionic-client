@@ -4,8 +4,10 @@
 
 export const environment = {
   production: false,
-  API_CONFIG: "http://localhost:8090",
-  bucketAmazonS3: "https://curso-spring-ionic-gabriel.s3-sa-east-1.amazonaws.com"
+  // API_CONFIG: "http://localhost:8090",
+  API_CONFIG: "https://spring-boot-api-ionic.herokuapp.com/",
+  bucketAmazonS3:
+    "https://curso-spring-ionic-gabriel.s3-sa-east-1.amazonaws.com",
 };
 
 /*
