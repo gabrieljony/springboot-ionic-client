@@ -30,3 +30,7 @@ npm-debug.log*
 /platforms
 /plugins
 /www
+
+# lock files
+yarn.lock
+package-lock.json
